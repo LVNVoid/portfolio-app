@@ -39,9 +39,9 @@ CREATE TABLE "users" (
     "email" TEXT,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
-    "gender" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "studyProgram" TEXT NOT NULL,
+    "gender" TEXT DEFAULT 'pria',
+    "address" TEXT,
+    "studyProgram" TEXT,
     "password" TEXT,
     "role" TEXT NOT NULL DEFAULT 'user',
     "nim" TEXT,
@@ -81,6 +81,12 @@ CREATE UNIQUE INDEX "sessions_session_token_key" ON "sessions"("session_token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_nim_key" ON "users"("nim");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_nidn_key" ON "users"("nidn");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "verification_tokens_identifier_token_key" ON "verification_tokens"("identifier", "token");
