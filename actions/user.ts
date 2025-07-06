@@ -1,4 +1,8 @@
+"use server";
+
 import { prisma } from "@/lib/prisma";
+import { userEditSchema } from "@/lib/schemas/user";
+import { revalidatePath } from "next/cache";
 
 export const getAllUsers = async () => {
   const users = await prisma.user.findMany({
@@ -6,6 +10,10 @@ export const getAllUsers = async () => {
       id: true,
       name: true,
       email: true,
+      image: true,
+      address: true,
+      gender: true,
+      studyProgram: true,
       role: true,
       nim: true,
       nidn: true,
@@ -14,19 +22,42 @@ export const getAllUsers = async () => {
   return users;
 };
 
-export const getUserById = async (id: string) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id },
-      include: {
-        accounts: true,
-        sessions: true,
-        Portfolio: true,
-      },
-    });
-    return user;
-  } catch (error) {
-    console.error("Failed to fetch user by ID:", error);
-    throw new Error("Failed to fetch user");
+export const updateUser = async (formData: FormData) => {
+  const values = Object.fromEntries(formData.entries());
+  const parsed = userEditSchema.safeParse(values);
+
+  if (!parsed.success) {
+    return { error: parsed.error.flatten().fieldErrors };
   }
+
+  const { id, name, email, role, nim, nidn } = parsed.data;
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      name,
+      email,
+      role,
+      nim: role === "mahasiswa" ? nim : null,
+      nidn: role === "dosen" ? nidn : null,
+    },
+  });
+
+  revalidatePath("/dashboard/users");
+  return { success: true };
 };
+
+export async function deleteUser(id: string) {
+  try {
+    await prisma.user.delete({
+      where: { id },
+    });
+
+    revalidatePath("/dashboard/users");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return { success: false, error: "Gagal menghapus pengguna" };
+  }
+}
