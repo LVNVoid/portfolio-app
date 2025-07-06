@@ -1,8 +1,8 @@
 "use client";
 
-import { UserTable } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { UserActionsCell } from "./user-action-cell";
+import { UserTable } from "@/types/user";
 
 export const columns: ColumnDef<UserTable>[] = [
   {

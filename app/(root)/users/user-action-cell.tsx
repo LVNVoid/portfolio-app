@@ -19,9 +19,9 @@ interface UserActionsCellProps {
 }
 
 export function UserActionsCell({ user }: UserActionsCellProps) {
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openDetail, setOpenDetail] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
+  const [editUserId, setEditUserId] = useState<string | null>(null);
+  const [detailUserId, setDetailUserId] = useState<string | null>(null);
+  const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
 
   return (
     <>
@@ -32,30 +32,48 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setOpenDetail(true)}>
+          <DropdownMenuItem onClick={() => setDetailUserId(user.id)}>
             Detail
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpenEdit(true)}>
+          <DropdownMenuItem onClick={() => setEditUserId(user.id)}>
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpenDelete(true)}>
+          <DropdownMenuItem onClick={() => setDeleteUserId(user.id)}>
             Hapus
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditUserModal user={user} open={openEdit} onOpenChange={setOpenEdit} />
-      <UserDetailModal
-        user={user}
-        open={openDetail}
-        onOpenChange={setOpenDetail}
-      />
-      <DeleteUserModal
-        userId={user.id}
-        userName={user.name}
-        open={openDelete}
-        onOpenChange={setOpenDelete}
-      />
+      {editUserId && (
+        <EditUserModal
+          userId={editUserId}
+          open={!!editUserId}
+          onOpenChange={(open) => {
+            if (!open) setEditUserId(null);
+          }}
+        />
+      )}
+
+      {detailUserId && (
+        <UserDetailModal
+          userId={detailUserId}
+          open={!!detailUserId}
+          onOpenChange={(open) => {
+            if (!open) setDetailUserId(null);
+          }}
+        />
+      )}
+
+      {deleteUserId && (
+        <DeleteUserModal
+          userId={deleteUserId}
+          userName={user.name}
+          open={!!deleteUserId}
+          onOpenChange={(open) => {
+            if (!open) setDeleteUserId(null);
+          }}
+        />
+      )}
     </>
   );
 }

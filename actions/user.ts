@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { userEditSchema } from "@/lib/schemas/user";
+import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const getAllUsers = async () => {
@@ -11,9 +12,6 @@ export const getAllUsers = async () => {
       name: true,
       email: true,
       image: true,
-      address: true,
-      gender: true,
-      studyProgram: true,
       role: true,
       nim: true,
       nidn: true,
@@ -60,4 +58,10 @@ export async function deleteUser(id: string) {
     console.error("Error deleting user:", error);
     return { success: false, error: "Gagal menghapus pengguna" };
   }
+}
+
+export async function getUser(userId: string): Promise<User | null> {
+  return await prisma.user.findUnique({
+    where: { id: userId },
+  });
 }
