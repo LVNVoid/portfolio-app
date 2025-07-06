@@ -54,7 +54,7 @@ model User {
   address       String?
   studyProgram  String?
   password      String?
-  role          String      @default("user")
+  role          Role        @default(mahasiswa)
   nim           String?     @unique
   nidn          String?     @unique
   accounts      Account[]
@@ -62,6 +62,12 @@ model User {
   Portfolio     Portfolio[]
 
   @@map("users")
+}
+
+enum Role {
+  mahasiswa
+  dosen
+  admin
 }
 
 model VerificationToken {
