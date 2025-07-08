@@ -64,10 +64,15 @@ const RegisterForm = () => {
       </div>
 
       <div className="flex flex-col gap-1">
-        <Label htmlFor="nim">NIM / NPM</Label>
-        <Input type="text" id="nim" name="nim" placeholder="2005040000" />
+        <Label htmlFor="identifier">NIM / NIDN</Label>
+        <Input
+          type="text"
+          id="identifier"
+          name="identifier"
+          placeholder="Enter your NIM / NIDN"
+        />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.nim}
+          {state?.error?.identifier}
         </span>
       </div>
 

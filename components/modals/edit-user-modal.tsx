@@ -64,8 +64,7 @@ export function EditUserModal({
               name: data.name ?? "",
               email: data.email ?? "",
               role: data.role as "mahasiswa" | "dosen" | "admin",
-              nim: data.nim ?? undefined,
-              nidn: data.nidn ?? undefined,
+              identifier: data.identifier ?? "",
             };
             reset(safeUser);
           } else {
@@ -96,8 +95,12 @@ export function EditUserModal({
             if (errors.name?.[0]) toast.error(`Nama: ${errors.name[0]}`);
             if (errors.email?.[0]) toast.error(`Email: ${errors.email[0]}`);
             if (errors.role?.[0]) toast.error(`Role: ${errors.role[0]}`);
-            if (errors.nim?.[0]) toast.error(`NIM: ${errors.nim[0]}`);
-            if (errors.nidn?.[0]) toast.error(`NIDN: ${errors.nidn[0]}`);
+            if (errors.identifier?.[0])
+              toast.error(
+                `${role === "mahasiswa" ? "NIM" : "NIDN"}: ${
+                  errors.identifier[0]
+                }`
+              );
           } else {
             toast.error("Gagal update user");
           }
@@ -193,31 +196,22 @@ export function EditUserModal({
               )}
             </div>
 
-            {role === "mahasiswa" && (
+            {(role === "mahasiswa" || role === "dosen") && (
               <div className="space-y-2">
-                <Label htmlFor="nim">NIM</Label>
+                <Label htmlFor="identifier">
+                  {role === "mahasiswa" ? "NIM" : "NIDN"}
+                </Label>
                 <Input
-                  id="nim"
-                  placeholder="Masukkan NIM"
-                  {...register("nim")}
+                  id="identifier"
+                  placeholder={
+                    role === "mahasiswa" ? "Masukkan NIM" : "Masukkan NIDN"
+                  }
+                  {...register("identifier")}
+                  className={errors.identifier ? "border-red-500" : ""}
                 />
-                {errors.nim && (
-                  <p className="text-sm text-red-500">⚠ {errors.nim.message}</p>
-                )}
-              </div>
-            )}
-
-            {role === "dosen" && (
-              <div className="space-y-2">
-                <Label htmlFor="nidn">NIDN</Label>
-                <Input
-                  id="nidn"
-                  placeholder="Masukkan NIDN"
-                  {...register("nidn")}
-                />
-                {errors.nidn && (
+                {errors.identifier && (
                   <p className="text-sm text-red-500">
-                    ⚠ {errors.nidn.message}
+                    ⚠ {errors.identifier.message}
                   </p>
                 )}
               </div>

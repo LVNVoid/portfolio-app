@@ -14,7 +14,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {
-        nim: { label: "NIM", type: "text" },
+        identifier: { label: "NIM / NIDN", type: "text" },
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
@@ -24,10 +24,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const { nim, password } = validatedCredentials.data;
+        const { identifier, password } = validatedCredentials.data;
 
         const user = await prisma.user.findUnique({
-          where: { nim },
+          where: { identifier },
         });
 
         if (!user || !user.password) {

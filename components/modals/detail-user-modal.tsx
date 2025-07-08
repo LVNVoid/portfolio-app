@@ -164,10 +164,18 @@ export function UserDetailModal({
                   value={user.role}
                 />
                 {user.role === "mahasiswa" && (
-                  <InfoItem icon={<Hash />} label="NIM" value={user.nim} />
+                  <InfoItem
+                    icon={<Hash />}
+                    label="NIM"
+                    value={user.identifier}
+                  />
                 )}
                 {user.role === "dosen" && (
-                  <InfoItem icon={<Hash />} label="NIDN" value={user.nidn} />
+                  <InfoItem
+                    icon={<Hash />}
+                    label="NIDN"
+                    value={user.identifier}
+                  />
                 )}
                 <InfoItem
                   icon={<Calendar />}

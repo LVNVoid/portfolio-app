@@ -5,7 +5,6 @@ export type UserTable = {
   name: string;
   email: string;
   role: Role;
-  nim: string | null;
-  nidn: string | null;
+  identifier: string | null;
   image: string | null;
 };

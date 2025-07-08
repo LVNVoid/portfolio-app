@@ -55,8 +55,7 @@ model User {
   studyProgram  String?
   password      String?
   role          Role        @default(mahasiswa)
-  nim           String?     @unique
-  nidn          String?     @unique
+  identifier    String?     @unique
   accounts      Account[]
   sessions      Session[]
   Portfolio     Portfolio[]

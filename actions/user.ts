@@ -13,8 +13,7 @@ export const getAllUsers = async () => {
       email: true,
       image: true,
       role: true,
-      nim: true,
-      nidn: true,
+      identifier: true,
     },
   });
   return users;
@@ -28,7 +27,7 @@ export const updateUser = async (formData: FormData) => {
     return { error: parsed.error.flatten().fieldErrors };
   }
 
-  const { id, name, email, role, nim, nidn } = parsed.data;
+  const { id, name, email, role, identifier } = parsed.data;
 
   await prisma.user.update({
     where: { id },
@@ -36,8 +35,7 @@ export const updateUser = async (formData: FormData) => {
       name,
       email,
       role,
-      nim: role === "mahasiswa" ? nim : null,
-      nidn: role === "dosen" ? nidn : null,
+      identifier,
     },
   });
 

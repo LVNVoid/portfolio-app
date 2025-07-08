@@ -20,20 +20,20 @@ export const signUpCredentials = async (
     };
   }
 
-  const { name, email, nim, password } = validatedFields.data;
+  const { name, email, identifier, password } = validatedFields.data;
   const hashedPassword = hashSync(password, 10);
 
   try {
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [{ email }, { nim }],
+        OR: [{ email }, { identifier }],
       },
     });
 
     if (existingUser) {
       return {
         error: {
-          general: ["User with this Email or NIM already exists"],
+          general: ["User with this Email or NIM / NIDN already exists"],
         },
       };
     }
@@ -42,7 +42,7 @@ export const signUpCredentials = async (
       data: {
         name,
         email,
-        nim,
+        identifier,
         password: hashedPassword,
       },
     });
@@ -74,10 +74,14 @@ export const signInCredentials = async (
     };
   }
 
-  const { nim, password } = validatedFields.data;
+  const { identifier, password } = validatedFields.data;
 
   try {
-    await signIn("credentials", { nim, password, redirectTo: "/dashboard" });
+    await signIn("credentials", {
+      identifier,
+      password,
+      redirectTo: "/dashboard",
+    });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
