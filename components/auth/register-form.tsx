@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { signUpCredentials } from "@/actions/auth";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -9,6 +9,8 @@ import { Button } from "../ui/button";
 import { PasswordInput } from "../ui/password-input";
 import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
@@ -28,7 +30,15 @@ const SubmitButton = () => {
 };
 
 const RegisterForm = () => {
+  const router = useRouter();
   const [state, formAction] = useActionState(signUpCredentials, null);
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Registrasi berhasil! Silakan login.");
+      router.push("/login");
+    }
+  }, [state, router]);
 
   return (
     <form action={formAction} className="space-y-4">

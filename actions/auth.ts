@@ -3,7 +3,6 @@
 import { registerSchema, signInSchema } from "@/lib/schemas/auth";
 import { hashSync } from "bcrypt-ts";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 
@@ -47,6 +46,10 @@ export const signUpCredentials = async (
         password: hashedPassword,
       },
     });
+
+    return {
+      success: true,
+    };
   } catch (error) {
     console.error("Registration error:", error);
     return {
@@ -55,8 +58,6 @@ export const signUpCredentials = async (
       },
     };
   }
-
-  redirect("/login");
 };
 
 export const signInCredentials = async (
