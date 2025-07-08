@@ -18,12 +18,8 @@ export const columns: ColumnDef<UserTable>[] = [
     header: "Role",
   },
   {
-    id: "identitas",
+    accessorKey: "identifier",
     header: "NIM / NIDN",
-    cell: ({ row }) => {
-      const user = row.original;
-      return user.role === "mahasiswa" ? user.nim ?? "-" : user.nidn ?? "-";
-    },
   },
   {
     id: "actions",

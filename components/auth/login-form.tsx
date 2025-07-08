@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 import { PasswordInput } from "../ui/password-input";
 import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
+import { useFormError } from "@/hooks/useFormError";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
@@ -29,6 +30,8 @@ const SubmitButton = () => {
 
 const LoginForm = () => {
   const [state, formAction] = useActionState(signInCredentials, null);
+  const { getFieldError, getGeneralError, hasGeneralError } =
+    useFormError(state);
 
   return (
     <form action={formAction} className="space-y-4">
@@ -41,7 +44,7 @@ const LoginForm = () => {
           placeholder="Enter your NIM / NIDN"
         />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.identifier}
+          {getFieldError("identifier")}
         </span>
       </div>
 
@@ -49,13 +52,13 @@ const LoginForm = () => {
         <Label htmlFor="password">Password</Label>
         <PasswordInput id="password" name="password" />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.password}
+          {getFieldError("password")}
         </span>
       </div>
 
-      {state?.error?.general && (
+      {hasGeneralError && (
         <div className="text-sm font-medium text-red-500 text-center">
-          {state.error.general[0]}
+          {getGeneralError()}
         </div>
       )}
 

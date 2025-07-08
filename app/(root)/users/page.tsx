@@ -1,17 +1,21 @@
 import { getAllUsers } from "@/actions/user";
-import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./columns";
+import { DataTable } from "./data-table";
 
 const UsersPage = async () => {
   const users = await getAllUsers();
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">Daftar Pengguna</h1>
-        <p className="text-muted-foreground">Kelola data pengguna sistem</p>
+    <div className="container mx-auto">
+      <div className="w-full">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Data Pengguna
+          </h1>
+          <p className="text-muted-foreground">Kelola data pengguna</p>
+        </div>
+        <DataTable columns={columns} data={users} />
       </div>
-      <DataTable columns={columns} data={users} />
     </div>
   );
 };

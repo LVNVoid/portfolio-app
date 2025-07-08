@@ -11,6 +11,7 @@ import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useFormError } from "@/hooks/useFormError";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
@@ -32,6 +33,8 @@ const SubmitButton = () => {
 const RegisterForm = () => {
   const router = useRouter();
   const [state, formAction] = useActionState(signUpCredentials, null);
+  const { getFieldError, getGeneralError, hasGeneralError } =
+    useFormError(state);
 
   useEffect(() => {
     if (state?.success) {
@@ -46,7 +49,7 @@ const RegisterForm = () => {
         <Label htmlFor="name">Name</Label>
         <Input type="text" id="name" name="name" placeholder="John Doe" />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.name}
+          {getFieldError("name")}
         </span>
       </div>
 
@@ -59,7 +62,7 @@ const RegisterForm = () => {
           placeholder="john@example.com"
         />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.email}
+          {getFieldError("email")}
         </span>
       </div>
 
@@ -72,7 +75,7 @@ const RegisterForm = () => {
           placeholder="Enter your NIM / NIDN"
         />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.identifier}
+          {getFieldError("identifier")}
         </span>
       </div>
 
@@ -80,7 +83,7 @@ const RegisterForm = () => {
         <Label htmlFor="password">Password</Label>
         <PasswordInput id="password" name="password" />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.password}
+          {getFieldError("password")}
         </span>
       </div>
 
@@ -88,13 +91,13 @@ const RegisterForm = () => {
         <Label htmlFor="confirmPassword">Confirm Password</Label>
         <PasswordInput id="confirmPassword" name="confirmPassword" />
         <span className="text-xs font-medium text-red-500">
-          {state?.error?.confirmPassword}
+          {getFieldError("confirmPassword")}
         </span>
       </div>
 
-      {state?.error?.general && (
+      {hasGeneralError && (
         <div className="text-sm font-medium text-red-500 text-center">
-          {state.error.general[0]}
+          {getGeneralError()}
         </div>
       )}
 
