@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Tim Pengembang Sertifikat Mahasiswa" }],
   creator: "Elvien Purnawan",
-  metadataBase: new URL("https://sertifikatmahasiswa.vercel.app"), // ganti jika belum deploy
+  metadataBase: new URL("https://sertifikatmahasiswa.vercel.app"),
   openGraph: {
     title: "Sertifikat Mahasiswa",
     description:

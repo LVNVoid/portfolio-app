@@ -81,15 +81,16 @@ model VerificationToken {
 }
 
 model Portfolio {
-  id          String            @id @default(cuid())
-  title       String
-  description String
-  level       PortfolioLevel
-  category    PortfolioCategory
-  docsUrl     String?
-  date        DateTime
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  id           String            @id @default(cuid())
+  title        String
+  description  String
+  level        PortfolioLevel
+  category     PortfolioCategory
+  docsUrl      String?
+  docsPublicId String?
+  date         DateTime
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

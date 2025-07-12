@@ -1,5 +1,6 @@
 "use client";
 
+import { DeletePortfolioModal } from "@/components/modals/delete-portfolio-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,14 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PortfolioTable } from "@/types/portfolio";
-
-import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
-export const columns: ColumnDef<PortfolioTable>[] = [
+export const columns = [
   {
-    accessorKey: "userName",
+    accessorKey: "user.name",
     header: "Author",
   },
   {
@@ -32,13 +30,26 @@ export const columns: ColumnDef<PortfolioTable>[] = [
     header: "Kategori",
   },
   {
-    id: "dateFormatted",
+    id: "date",
     header: "Tanggal",
+    cell: ({ row }) => {
+      const date = row.original.date;
+
+      if (!date) return "-";
+
+      const formatted = new Date(date).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+
+      return formatted;
+    },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const portfolio = row.original;
 
       return (
         <DropdownMenu>
@@ -51,14 +62,26 @@ export const columns: ColumnDef<PortfolioTable>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(portfolio.id)}
             >
-              Copy payment ID
+              Copy Portfolio ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Detail</DropdownMenuItem>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <DeletePortfolioModal
+                portfolioId={portfolio.id}
+                trigger={
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start h-8 px-2 text-red-500 hover:text-red-700"
+                  >
+                    Delete
+                  </Button>
+                }
+              />
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

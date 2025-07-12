@@ -67,7 +67,7 @@ export function UserActionsCell({ user }: UserActionsCellProps) {
       {deleteUserId && (
         <DeleteUserModal
           userId={deleteUserId}
-          userName={user.name}
+          userName={user.name || ""}
           open={!!deleteUserId}
           onOpenChange={(open) => {
             if (!open) setDeleteUserId(null);

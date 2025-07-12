@@ -1,5 +1,3 @@
-// app/(admin)/portfolio/page.tsx
-import { PortfolioTable } from "@/types/portfolio";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { getAllPortfolio } from "@/actions/portfolio";
@@ -7,7 +5,9 @@ import { AddPortfolioModal } from "@/components/modals/add-portfolio-modal";
 import { Button } from "@/components/ui/button";
 
 const PortfolioPage = async () => {
-  const portfolios: PortfolioTable[] = await getAllPortfolio();
+  const portfolios = await getAllPortfolio();
+
+  console.log(portfolios);
 
   return (
     <div className="container mx-auto">
