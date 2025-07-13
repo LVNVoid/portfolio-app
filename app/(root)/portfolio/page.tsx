@@ -6,9 +6,6 @@ import { Button } from "@/components/ui/button";
 
 const PortfolioPage = async () => {
   const portfolios = await getAllPortfolio();
-
-  console.log(portfolios);
-
   return (
     <div className="container mx-auto">
       <div className="w-full">

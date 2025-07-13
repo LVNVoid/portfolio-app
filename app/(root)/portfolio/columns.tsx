@@ -1,6 +1,7 @@
 "use client";
 
 import { DeletePortfolioModal } from "@/components/modals/delete-portfolio-modal";
+import { DetailModalPortfolio } from "@/components/modals/detail-portfolio-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -67,7 +68,19 @@ export const columns = [
               Copy Portfolio ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Detail</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <DetailModalPortfolio
+                portfolioId={portfolio.id}
+                trigger={
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start h-8 px-2"
+                  >
+                    Detail
+                  </Button>
+                }
+              />
+            </DropdownMenuItem>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem asChild>
               <DeletePortfolioModal
