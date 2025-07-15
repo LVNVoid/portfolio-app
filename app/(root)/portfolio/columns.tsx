@@ -11,11 +11,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { PortfolioWithUser } from "@/types/portfolio";
+import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
-export const columns = [
+export const columns: ColumnDef<PortfolioWithUser>[] = [
   {
-    accessorKey: "user.name",
+    accessorFn: (row) => row.user?.name,
+    id: "userName",
     header: "Author",
   },
   {

@@ -21,6 +21,13 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 import { useState } from "react";
 
@@ -53,8 +60,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      {/* Search Input */}
-      <div className="flex items-center">
+      {/* Search & Filter */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <Input
           placeholder="Cari berdasarkan nama..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -63,6 +70,25 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+
+        <div className="flex items-center gap-2">
+          <Select
+            onValueChange={(value) =>
+              table
+                .getColumn("role")
+                ?.setFilterValue(value === "all" ? undefined : value)
+            }
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter Role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua</SelectItem>
+              <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
+              <SelectItem value="dosen">Dosen</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Table */}
@@ -112,11 +138,9 @@ export function DataTable<TData, TValue>({
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm text-muted-foreground">
-            Menampilkan {table.getState().pagination.pageIndex + 1} dari{" "}
-            {table.getPageCount()} halaman
-          </p>
+        <div className="text-sm text-muted-foreground">
+          Menampilkan halaman {table.getState().pagination.pageIndex + 1} dari{" "}
+          {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button
